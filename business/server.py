@@ -16,7 +16,7 @@ class SQLServer:
 
     def connect_to_server(self):
         try:
-            self.conn = pyodbc.connect(self._connection_string())
+            self.conn = pyodbc.connect(self._connection_string(), autocommit=True)
             logging.info("Connection stablished")
         except Exception as e:
             logging.error(str(e))
@@ -42,13 +42,37 @@ class SQLServer:
         except Exception as e:
             logging.error(str(e))
 
+    def get_cursor(self):
+        if self.conn is None:
+            logging.error("Connection is absent")
+        try:
+            cursor = self.conn.cursor()
+        except Exception as e:
+            logging.error(str(e))
+        return cursor
+
+
+    def create_database(self, database):
+        cursor = self.get_cursor()
+        drop_query = "DROP DATABASE IF EXISTS ?"
+        create_query = "CREATE DATABASE ?"
+
+        cursor.execute(drop_query, (database,))
+        cursor.execute(create_query, (database,))
+
+
+    def execute_query(self, statement):
+        
+
+
+
 
 #server = SQLServer()
 #server.connect_to_server()
 
 
-import pyodbc
-CONNECTION_STRING = f"DRIVER={{{os.getenv('DRIVER_NAME')}}};SERVER={os.getenv('SERVER_NAME')};UID={os.getenv('SQL_USER')};PWD=thisismynewpassword"
+#import pyodbc
+#CONNECTION_STRING = f"DRIVER={{{os.getenv('DRIVER_NAME')}}};SERVER={os.getenv('SERVER_NAME')};UID={os.getenv('SQL_USER')};PWD=thisismynewpassword"
 
 database = "testdb"
 with pyodbc.connect(CONNECTION_STRING, autocommit=True).cursor() as cursor:
