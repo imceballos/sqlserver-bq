@@ -61,7 +61,11 @@ class SQLServer:
         cursor.execute(create_query, (database,))
 
 
-    def execute_query(self, statement):
+    def execute_query(self):
+        cursor.execute("SELECT name FROM master.sys.databases")
+        return [row for row in cursor]
+
+
         
 
 
@@ -73,14 +77,3 @@ class SQLServer:
 
 #import pyodbc
 #CONNECTION_STRING = f"DRIVER={{{os.getenv('DRIVER_NAME')}}};SERVER={os.getenv('SERVER_NAME')};UID={os.getenv('SQL_USER')};PWD=thisismynewpassword"
-
-database = "testdb"
-with pyodbc.connect(CONNECTION_STRING, autocommit=True).cursor() as cursor:
-    cursor.execute(f"DROP DATABASE IF EXISTS {database}")
-    cursor.execute(f"CREATE DATABASE {database}")
-
-    # Print the list of databases in the instance, showing that testdb has been created.
-    cursor.execute("SELECT name FROM master.sys.databases")
-    for row in cursor:
-        db_name = row[0]
-        print(db_name + (" <<--- CREATED" if db_name == database else ""))

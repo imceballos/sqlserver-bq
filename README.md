@@ -6,3 +6,5 @@ Para efectos de ejecución local, es posible instalar el controlador de SQLServe
 requerimiento será añadido a una imagen Dockerizada.
 
 Orquestación mediante Airflow.
+
+Conexión y escritura en BigQuery
