@@ -60,20 +60,6 @@ class SQLServer:
         cursor.execute(drop_query, (database,))
         cursor.execute(create_query, (database,))
 
-
     def execute_query(self):
         cursor.execute("SELECT name FROM master.sys.databases")
         return [row for row in cursor]
-
-
-        
-
-
-
-
-#server = SQLServer()
-#server.connect_to_server()
-
-
-#import pyodbc
-#CONNECTION_STRING = f"DRIVER={{{os.getenv('DRIVER_NAME')}}};SERVER={os.getenv('SERVER_NAME')};UID={os.getenv('SQL_USER')};PWD=thisismynewpassword"
